@@ -1,0 +1,101 @@
+# SystemVision Default Configuration
+# This file contains the default settings for the application.
+# User configuration will be stored in ~/.config/system_vision/config.toml
+
+[general]
+# Refresh interval in milliseconds
+refresh_interval_ms = 1000
+
+# Start application minimized
+start_minimized = false
+
+# Minimize to system tray instead of taskbar
+minimize_to_tray = true
+
+# Start application on system boot
+start_on_boot = false
+
+[monitoring]
+# Enable/disable individual monitoring modules
+enable_cpu = true
+enable_memory = true
+enable_disk = true
+enable_network = true
+enable_gpu = true
+enable_temperature = true
+enable_power = true
+
+# Duration to keep historical data (hours)
+history_duration_hours = 24
+
+# Maximum storage size for metrics database (MB)
+max_storage_mb = 100
+
+[ui]
+# Theme: "Dark" or "Light"
+theme = "Dark"
+
+# Font size
+font_size = 14.0
+
+# Show graphs in dashboard
+show_graphs = true
+
+# Graph history duration (seconds)
+graph_history_seconds = 60
+
+# Window dimensions
+window_width = 1200.0
+window_height = 800.0
+
+[export]
+# Default export format: "CSV" or "JSON"
+default_format = "CSV"
+
+# Default export directory
+default_directory = "~/Documents/SystemVision"
+
+# Include timestamps in export
+include_timestamps = true
+
+# Example alert configuration
+# Uncomment and modify to add alerts
+
+# [[alerts]]
+# id = "high_cpu"
+# enabled = true
+# name = "High CPU Usage"
+# condition = "CpuUsageAbove"
+# threshold = 90.0
+# duration_seconds = 30
+#
+# [[alerts.actions]]
+# type = "Notification"
+# title = "High CPU Usage"
+# message = "CPU usage has exceeded 90% for 30 seconds"
+
+# [[alerts]]
+# id = "high_memory"
+# enabled = true
+# name = "High Memory Usage"
+# condition = "MemoryUsageAbove"
+# threshold = 85.0
+# duration_seconds = 60
+#
+# [[alerts.actions]]
+# type = "Notification"
+# title = "High Memory Usage"
+# message = "Memory usage has exceeded 85% for 60 seconds"
+
+# [[alerts]]
+# id = "disk_space"
+# enabled = true
+# name = "Low Disk Space"
+# condition = "DiskUsageAbove"
+# threshold = 90.0
+# duration_seconds = 300
+#
+# [[alerts.actions]]
+# type = "Notification"
+# title = "Low Disk Space"
+# message = "Disk usage has exceeded 90%"
