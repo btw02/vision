@@ -158,7 +158,7 @@ Each collector implements a common trait:
 ```rust
 pub trait MetricCollector {
     type Metric;
-    
+
     fn collect(&self) -> Result<Self::Metric>;
     fn name(&self) -> &str;
 }
@@ -341,7 +341,7 @@ pub struct SystemState {
 // Usage in collectors (async context)
 async fn collect_metrics(state: Arc<RwLock<SystemState>>) {
     let metrics = collect().await?;
-    
+
     let mut state = state.write().await;
     state.update_metrics(metrics);
 }
@@ -369,16 +369,16 @@ fn update_ui(state: Arc<RwLock<SystemState>>) {
 pub struct AppState {
     // Current system metrics
     current_metrics: SystemMetrics,
-    
+
     // Historical data (ring buffer)
     history: VecDeque<SystemMetrics>,
-    
+
     // Configuration
     config: Config,
-    
+
     // Active alerts
     alerts: Vec<Alert>,
-    
+
     // UI state
     selected_process: Option<ProcessId>,
     current_view: ViewType,

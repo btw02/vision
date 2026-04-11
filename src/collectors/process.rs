@@ -17,13 +17,13 @@ impl ProcessCollector {
     /// Create a new process collector
     pub fn new() -> Result<Self> {
         let system = System::new_all();
-        
+
         Ok(Self {
             system,
             metrics: Vec::new(),
         })
     }
-    
+
     /// Get the current metrics
     pub fn get_metrics(&self) -> Vec<ProcessMetrics> {
         self.metrics.clone()
@@ -34,10 +34,10 @@ impl Collector for ProcessCollector {
     fn collect(&mut self) -> Result<()> {
         // Refresh process information
         self.system.refresh_processes();
-        
+
         // Get total memory for percentage calculation
         let total_memory = self.system.total_memory();
-        
+
         // Collect metrics for all processes
         let mut processes: Vec<ProcessMetrics> = self.system
             .processes()
@@ -49,7 +49,7 @@ impl Collector for ProcessCollector {
                 } else {
                     0.0
                 };
-                
+
                 ProcessMetrics {
                     pid: pid.as_u32(),
                     name: process.name().to_string(),
@@ -63,15 +63,14 @@ impl Collector for ProcessCollector {
                 }
             })
             .collect();
-        
+
         // Sort by CPU usage (highest first)
         processes.sort_by(|a, b| {
             b.cpu_percent.partial_cmp(&a.cpu_percent).unwrap_or(std::cmp::Ordering::Equal)
         });
-        
+
         self.metrics = processes;
-        
+
         Ok(())
     }
 }
-

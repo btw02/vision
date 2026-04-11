@@ -20,45 +20,45 @@ impl PowerCollector {
             metrics: None,
         })
     }
-    
+
     /// Get the current metrics
     pub fn get_metrics(&self) -> Option<PowerMetrics> {
         self.metrics.clone()
     }
-    
+
     /// Read battery information from sysfs (Linux)
     fn read_battery_info() -> Option<PowerMetrics> {
         let power_supply_path = Path::new("/sys/class/power_supply");
-        
+
         if !power_supply_path.exists() {
             return None;
         }
-        
+
         // Find battery directory (usually BAT0, BAT1, etc.)
         let battery_dir = fs::read_dir(power_supply_path).ok()?
             .filter_map(|entry| entry.ok())
             .find(|entry| {
                 entry.file_name().to_string_lossy().starts_with("BAT")
             })?;
-        
+
         let battery_path = battery_dir.path();
-        
+
         // Read battery capacity (percentage)
         let capacity = fs::read_to_string(battery_path.join("capacity"))
             .ok()
             .and_then(|s| s.trim().parse::<f32>().ok());
-        
+
         // Read battery status
         let status = fs::read_to_string(battery_path.join("status"))
             .ok()
             .map(|s| s.trim().to_string());
-        
+
         // Read power consumption (in microwatts, convert to watts)
         let power_now = fs::read_to_string(battery_path.join("power_now"))
             .ok()
             .and_then(|s| s.trim().parse::<f32>().ok())
             .map(|p| p / 1_000_000.0);
-        
+
         // Calculate time remaining (rough estimate)
         let time_remaining = if let (Some(_cap), Some(power), Some(ref stat)) =
             (capacity, power_now, &status) {
@@ -68,12 +68,12 @@ impl PowerCollector {
                     .ok()
                     .and_then(|s| s.trim().parse::<f32>().ok())
                     .map(|e| e / 1_000_000.0); // Convert to Wh
-                
+
                 let energy_now = fs::read_to_string(battery_path.join("energy_now"))
                     .ok()
                     .and_then(|s| s.trim().parse::<f32>().ok())
                     .map(|e| e / 1_000_000.0); // Convert to Wh
-                
+
                 if let (Some(full), Some(now)) = (energy_full, energy_now) {
                     let hours = if stat == "Discharging" {
                         now / power
@@ -92,7 +92,7 @@ impl PowerCollector {
         } else {
             None
         };
-        
+
         Some(PowerMetrics {
             battery_present: true,
             battery_percent: capacity,
@@ -107,7 +107,7 @@ impl Collector for PowerCollector {
     fn collect(&mut self) -> Result<()> {
         // Try to read battery information
         self.metrics = Self::read_battery_info();
-        
+
         // If no battery found, set default values
         if self.metrics.is_none() {
             self.metrics = Some(PowerMetrics {
@@ -118,8 +118,7 @@ impl Collector for PowerCollector {
                 power_consumption_watts: None,
             });
         }
-        
+
         Ok(())
     }
 }
-

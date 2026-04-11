@@ -7,19 +7,19 @@ use std::time::Duration;
 /// Format bytes to human-readable string (e.g., "1.5 GB")
 pub fn format_bytes(bytes: u64) -> String {
     const UNITS: &[&str] = &["B", "KB", "MB", "GB", "TB", "PB"];
-    
+
     if bytes == 0 {
         return "0 B".to_string();
     }
-    
+
     let mut size = bytes as f64;
     let mut unit_index = 0;
-    
+
     while size >= 1024.0 && unit_index < UNITS.len() - 1 {
         size /= 1024.0;
         unit_index += 1;
     }
-    
+
     if unit_index == 0 {
         format!("{} {}", bytes, UNITS[unit_index])
     } else {
@@ -30,14 +30,14 @@ pub fn format_bytes(bytes: u64) -> String {
 /// Format duration to human-readable string (e.g., "2h 30m 15s")
 pub fn format_duration(duration: Duration) -> String {
     let total_seconds = duration.as_secs();
-    
+
     let days = total_seconds / 86400;
     let hours = (total_seconds % 86400) / 3600;
     let minutes = (total_seconds % 3600) / 60;
     let seconds = total_seconds % 60;
-    
+
     let mut parts = Vec::new();
-    
+
     if days > 0 {
         parts.push(format!("{}d", days));
     }
@@ -50,7 +50,7 @@ pub fn format_duration(duration: Duration) -> String {
     if seconds > 0 || parts.is_empty() {
         parts.push(format!("{}s", seconds));
     }
-    
+
     parts.join(" ")
 }
 
@@ -80,7 +80,7 @@ pub fn format_speed(bytes_per_sec: u64) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_format_bytes() {
         assert_eq!(format_bytes(0), "0 B");
@@ -88,14 +88,14 @@ mod tests {
         assert_eq!(format_bytes(1024 * 1024), "1.00 MB");
         assert_eq!(format_bytes(1536 * 1024 * 1024), "1.50 GB");
     }
-    
+
     #[test]
     fn test_format_duration() {
         assert_eq!(format_duration(Duration::from_secs(0)), "0s");
         assert_eq!(format_duration(Duration::from_secs(90)), "1m 30s");
         assert_eq!(format_duration(Duration::from_secs(3661)), "1h 1m 1s");
     }
-    
+
     #[test]
     fn test_format_percentage() {
         assert_eq!(format_percentage(50.0, 0), "50%");
@@ -103,4 +103,3 @@ mod tests {
         assert_eq!(format_percentage(50.55, 2), "50.55%");
     }
 }
-

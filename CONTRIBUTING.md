@@ -128,7 +128,7 @@ use anyhow::{Context, Result};
 pub fn read_config(path: &Path) -> Result<Config> {
     let content = std::fs::read_to_string(path)
         .context(format!("Failed to read config file: {}", path.display()))?;
-    
+
     toml::from_str(&content)
         .context("Failed to parse config file")
 }

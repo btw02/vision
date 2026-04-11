@@ -15,41 +15,41 @@ impl Theme {
     /// Apply the theme to the egui context
     pub fn apply(&self, ctx: &Context) {
         let mut style = Style::default();
-        
+
         match self {
             Theme::Dark => {
                 ctx.set_visuals(Visuals::dark());
-                
+
                 // Customize dark theme
                 let mut visuals = Visuals::dark();
-                
+
                 // Modern dark color palette
                 visuals.window_fill = Color32::from_rgb(24, 24, 27);
                 visuals.panel_fill = Color32::from_rgb(24, 24, 27);
                 visuals.faint_bg_color = Color32::from_rgb(39, 39, 42);
                 visuals.extreme_bg_color = Color32::from_rgb(9, 9, 11);
-                
+
                 // Improved contrast for text
                 visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0, Color32::from_rgb(228, 228, 231));
                 visuals.widgets.inactive.fg_stroke = Stroke::new(1.0, Color32::from_rgb(161, 161, 170));
-                
+
                 // Interactive elements
                 visuals.widgets.hovered.bg_fill = Color32::from_rgb(63, 63, 70);
                 visuals.widgets.active.bg_fill = Color32::from_rgb(82, 82, 91);
-                
+
                 // Selection color
                 visuals.selection.bg_fill = Color32::from_rgba_premultiplied(59, 130, 246, 100);
                 visuals.selection.stroke = Stroke::new(1.0, Color32::from_rgb(59, 130, 246));
-                
+
                 // Hyperlinks
                 visuals.hyperlink_color = Color32::from_rgb(96, 165, 250);
-                
+
                 // Rounded corners for modern look
                 visuals.window_rounding = Rounding::same(8.0);
                 visuals.menu_rounding = Rounding::same(6.0);
-                
+
                 ctx.set_visuals(visuals);
-                
+
                 // Spacing improvements
                 style.spacing.item_spacing = egui::vec2(8.0, 6.0);
                 style.spacing.button_padding = egui::vec2(12.0, 6.0);
@@ -58,37 +58,37 @@ impl Theme {
             }
             Theme::Light => {
                 ctx.set_visuals(Visuals::light());
-                
+
                 // Customize light theme
                 let mut visuals = Visuals::light();
-                
+
                 // Modern light color palette
                 visuals.window_fill = Color32::from_rgb(255, 255, 255);
                 visuals.panel_fill = Color32::from_rgb(250, 250, 250);
                 visuals.faint_bg_color = Color32::from_rgb(244, 244, 245);
                 visuals.extreme_bg_color = Color32::from_rgb(228, 228, 231);
-                
+
                 // Text colors
                 visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0, Color32::from_rgb(24, 24, 27));
                 visuals.widgets.inactive.fg_stroke = Stroke::new(1.0, Color32::from_rgb(82, 82, 91));
-                
+
                 // Interactive elements
                 visuals.widgets.hovered.bg_fill = Color32::from_rgb(228, 228, 231);
                 visuals.widgets.active.bg_fill = Color32::from_rgb(212, 212, 216);
-                
+
                 // Selection color
                 visuals.selection.bg_fill = Color32::from_rgba_premultiplied(59, 130, 246, 100);
                 visuals.selection.stroke = Stroke::new(1.0, Color32::from_rgb(59, 130, 246));
-                
+
                 // Hyperlinks
                 visuals.hyperlink_color = Color32::from_rgb(37, 99, 235);
-                
+
                 // Rounded corners
                 visuals.window_rounding = Rounding::same(8.0);
                 visuals.menu_rounding = Rounding::same(6.0);
-                
+
                 ctx.set_visuals(visuals);
-                
+
                 // Spacing improvements
                 style.spacing.item_spacing = egui::vec2(8.0, 6.0);
                 style.spacing.button_padding = egui::vec2(12.0, 6.0);
@@ -96,10 +96,10 @@ impl Theme {
                 style.spacing.menu_margin = egui::Margin::same(8.0);
             }
         }
-        
+
         ctx.set_style(style);
     }
-    
+
     /// Parse theme from string
     pub fn from_str(s: &str) -> Self {
         match s.to_lowercase().as_str() {
@@ -107,7 +107,7 @@ impl Theme {
             _ => Theme::Dark,
         }
     }
-    
+
     /// Convert theme to string
     pub fn to_string(&self) -> String {
         match self {
@@ -132,32 +132,32 @@ impl ColorPalette {
     pub const WARNING: Color32 = Color32::from_rgb(251, 146, 60);
     pub const ERROR: Color32 = Color32::from_rgb(239, 68, 68);
     pub const INFO: Color32 = Color32::from_rgb(59, 130, 246);
-    
+
     // Usage level colors (for progress bars)
     pub const USAGE_LOW: Color32 = Color32::from_rgb(59, 130, 246);      // Blue
     pub const USAGE_MODERATE: Color32 = Color32::from_rgb(34, 197, 94);  // Green
     pub const USAGE_HIGH: Color32 = Color32::from_rgb(251, 146, 60);     // Orange
     pub const USAGE_CRITICAL: Color32 = Color32::from_rgb(239, 68, 68);  // Red
-    
+
     // Temperature colors
     pub const TEMP_COOL: Color32 = Color32::from_rgb(59, 130, 246);      // Blue
     pub const TEMP_NORMAL: Color32 = Color32::from_rgb(34, 197, 94);     // Green
     pub const TEMP_WARM: Color32 = Color32::from_rgb(251, 146, 60);      // Orange
     pub const TEMP_HOT: Color32 = Color32::from_rgb(239, 68, 68);        // Red
-    
+
     // Data visualization colors
     pub const CHART_PRIMARY: Color32 = Color32::from_rgb(59, 130, 246);
     pub const CHART_SECONDARY: Color32 = Color32::from_rgb(168, 85, 247);
     pub const CHART_TERTIARY: Color32 = Color32::from_rgb(236, 72, 153);
-    
+
     // Network colors
     pub const NETWORK_RX: Color32 = Color32::from_rgb(34, 197, 94);      // Download - Green
     pub const NETWORK_TX: Color32 = Color32::from_rgb(251, 146, 60);     // Upload - Orange
-    
+
     // Text colors
     pub const TEXT_MUTED: Color32 = Color32::from_rgb(161, 161, 170);
     pub const TEXT_SECONDARY: Color32 = Color32::from_rgb(113, 113, 122);
-    
+
     /// Get color based on usage percentage
     pub fn usage_color(usage: f32) -> Color32 {
         if usage > 90.0 {
@@ -170,7 +170,7 @@ impl ColorPalette {
             Self::USAGE_LOW
         }
     }
-    
+
     /// Get color based on temperature (Celsius)
     pub fn temperature_color(temp: f32) -> Color32 {
         if temp > 85.0 {

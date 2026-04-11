@@ -24,13 +24,13 @@ impl Database {
         let conn = Connection::open(path)?;
         Ok(Self { _conn: conn })
     }
-    
+
     /// Store metrics snapshot (not implemented)
     pub fn store_metrics(&self, _metrics: &SystemMetrics) -> Result<()> {
         // Not implemented - metrics are stored in memory only
         Ok(())
     }
-    
+
     /// Query metrics for a time range (not implemented)
     pub fn query_metrics(
         &self,
@@ -40,11 +40,10 @@ impl Database {
         // Not implemented - use AppState.get_history() instead
         Ok(Vec::new())
     }
-    
+
     /// Clean up old metrics (not implemented)
     pub fn cleanup_old_metrics(&self, _retention_hours: u32) -> Result<()> {
         // Not implemented - memory cleanup is automatic via ring buffer
         Ok(())
     }
 }
-

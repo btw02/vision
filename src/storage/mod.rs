@@ -8,4 +8,3 @@ pub mod export;
 // Re-export commonly used types
 pub use database::Database;
 pub use export::{ExportFormat, Exporter};
-

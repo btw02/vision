@@ -27,7 +27,7 @@ impl GpuCollector {
             _phantom: std::marker::PhantomData,
         })
     }
-    
+
     /// Get the current metrics
     ///
     /// Always returns None as GPU monitoring is not implemented.
@@ -42,4 +42,3 @@ impl Collector for GpuCollector {
         Ok(())
     }
 }
-

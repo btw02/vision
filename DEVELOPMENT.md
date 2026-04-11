@@ -751,7 +751,7 @@ sudo usermod -a -G video,input $USER
    ```bash
    # Install mold
    sudo apt-get install mold
-   
+
    # In ~/.cargo/config.toml
    [target.x86_64-unknown-linux-gnu]
    linker = "clang"

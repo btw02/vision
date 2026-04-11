@@ -19,23 +19,23 @@ impl AlertManager {
     pub fn new(configs: Vec<AlertConfig>) -> Self {
         Self { configs }
     }
-    
+
     /// Check metrics against alert conditions
     pub fn check_alerts(&self, metrics: &SystemMetrics, state: &mut AppState) -> Result<()> {
         for config in &self.configs {
             if !config.enabled {
                 continue;
             }
-            
+
             // Evaluate condition and get current value
             if let Some(current_value) = self.evaluate_condition(&config.condition, metrics, config.threshold) {
                 self.trigger_alert(config, current_value, state)?;
             }
         }
-        
+
         Ok(())
     }
-    
+
     /// Evaluate an alert condition
     ///
     /// Returns Some(current_value) if the condition is met, None otherwise
@@ -71,14 +71,14 @@ impl AlertManager {
                     .unwrap_or(0.0)
             }
         };
-        
+
         if current_value > threshold {
             Some(current_value)
         } else {
             None
         }
     }
-    
+
     /// Trigger alert actions
     fn trigger_alert(
         &self,
@@ -94,7 +94,7 @@ impl AlertManager {
         } else {
             AlertSeverity::Info
         };
-        
+
         // Create active alert
         let alert = ActiveAlert {
             id: config.id.clone(),
@@ -107,11 +107,11 @@ impl AlertManager {
             current_value,
             threshold: config.threshold,
         };
-        
+
         // Add to active alerts if not already present
         if !state.active_alerts.iter().any(|a| a.id == alert.id) {
             state.add_alert(alert);
-            
+
             // Execute alert actions
             for action in &config.actions {
                 if let Err(e) = self.execute_action(action) {
@@ -119,10 +119,10 @@ impl AlertManager {
                 }
             }
         }
-        
+
         Ok(())
     }
-    
+
     /// Execute an alert action
     fn execute_action(&self, action: &AlertAction) -> Result<()> {
         match action {
@@ -138,8 +138,7 @@ impl AlertManager {
                 tracing::info!("Alert logged at level: {}", level);
             }
         }
-        
+
         Ok(())
     }
 }
-

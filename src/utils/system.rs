@@ -32,4 +32,3 @@ pub struct SystemInfo {
     pub kernel_version: String,
     pub architecture: String,
 }
-

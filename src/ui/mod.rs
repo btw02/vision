@@ -13,4 +13,3 @@ pub mod theme;
 
 // Re-export commonly used types
 pub use theme::Theme;
-

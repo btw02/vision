@@ -1,0 +1,10 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        # Skipping Helm chart templates (they contain syntax that is invalid before substitution)
+        exclude: '.*/templates/.*\.yaml$'
+      - id: check-added-large-files
