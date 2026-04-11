@@ -46,7 +46,7 @@ impl MetricsCollector {
             power: power::PowerCollector::new().ok(),
         })
     }
-    
+
     /// Collect all metrics and return a complete snapshot
     pub fn collect_all(&mut self) -> Result<SystemMetrics> {
         // Collect metrics sequentially
@@ -55,18 +55,18 @@ impl MetricsCollector {
         self.process.collect()?;
         self.network.collect()?;
         self.disk.collect()?;
-        
+
         // Optional collectors (may not be available on all systems)
         if let Some(ref mut gpu) = self.gpu {
             let _ = gpu.collect();
         }
-        
+
         self.temperature.collect()?;
-        
+
         if let Some(ref mut power) = self.power {
             let _ = power.collect();
         }
-        
+
         // Build the complete metrics snapshot
         Ok(SystemMetrics {
             timestamp: chrono::Utc::now(),
@@ -87,4 +87,3 @@ impl Default for MetricsCollector {
         Self::new().expect("Failed to create metrics collector")
     }
 }
-

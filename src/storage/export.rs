@@ -28,12 +28,12 @@ impl Exporter {
             ExportFormat::Json => Self::export_json(metrics, path),
         }
     }
-    
+
     /// Export to CSV format (not implemented)
     fn export_csv(_metrics: &[SystemMetrics], _path: &Path) -> Result<()> {
         anyhow::bail!("CSV export is not implemented. Use JSON format instead.")
     }
-    
+
     /// Export to JSON format
     ///
     /// Serializes the metrics array to a pretty-printed JSON file.
@@ -43,4 +43,3 @@ impl Exporter {
         Ok(())
     }
 }
-

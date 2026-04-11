@@ -16,14 +16,14 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
     ui.add_space(Spacing::TINY);
     ui.separator();
     ui.add_space(Spacing::MEDIUM);
-    
+
     // Overall network statistics with improved visual design
     ui.group(|ui| {
         ui.label(RichText::new("📊 Overall Statistics")
             .size(Typography::SUBHEADING_SIZE)
             .strong());
         ui.add_space(Spacing::SMALL);
-        
+
         // Total data transferred
         ui.horizontal(|ui| {
             ui.label(RichText::new("⬇ Total Download:")
@@ -33,11 +33,11 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                 .size(Typography::BODY_SIZE)
                 .strong()
                 .color(ColorPalette::NETWORK_RX));
-            
+
             ui.add_space(Spacing::MEDIUM);
             ui.separator();
             ui.add_space(Spacing::MEDIUM);
-            
+
             ui.label(RichText::new("⬆ Total Upload:")
                 .size(Typography::BODY_SIZE));
             ui.add_space(Spacing::SMALL);
@@ -46,9 +46,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                 .strong()
                 .color(ColorPalette::NETWORK_TX));
         });
-        
+
         ui.add_space(Spacing::SMALL);
-        
+
         // Current speeds with visual emphasis
         ui.horizontal(|ui| {
             ui.label(RichText::new("⚡ Download Speed:")
@@ -58,11 +58,11 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                 .size(Typography::BODY_SIZE)
                 .strong()
                 .color(ColorPalette::SUCCESS));
-            
+
             ui.add_space(Spacing::MEDIUM);
             ui.separator();
             ui.add_space(Spacing::MEDIUM);
-            
+
             ui.label(RichText::new("⚡ Upload Speed:")
                 .size(Typography::BODY_SIZE));
             ui.add_space(Spacing::SMALL);
@@ -72,15 +72,15 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                 .color(ColorPalette::SUCCESS));
         });
     });
-    
+
     ui.add_space(Spacing::MEDIUM);
-    
+
     // Network interfaces with improved table design
     ui.label(RichText::new("🌐 Network Interfaces")
         .size(Typography::SUBHEADING_SIZE)
         .strong());
     ui.add_space(Spacing::SMALL);
-    
+
     if metrics.network.interfaces.is_empty() {
         ui.vertical_centered(|ui| {
             ui.add_space(Spacing::XLARGE);
@@ -91,9 +91,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
         });
         return;
     }
-    
+
     use egui_extras::{TableBuilder, Column};
-    
+
     TableBuilder::new(ui)
         .striped(true)
         .resizable(true)
@@ -210,15 +210,15 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                 });
             }
         });
-    
+
     ui.add_space(Spacing::MEDIUM);
-    
+
     // Interface details with improved collapsible sections
     ui.label(RichText::new("Interface Details")
         .size(Typography::SUBHEADING_SIZE)
         .strong());
     ui.add_space(Spacing::TINY);
-    
+
     for interface in &metrics.network.interfaces {
         ui.collapsing(
             RichText::new(&interface.name)
@@ -226,7 +226,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                 .strong(),
             |ui| {
                 ui.add_space(Spacing::TINY);
-                
+
                 ui.horizontal(|ui| {
                     ui.label(RichText::new("Status:")
                         .size(Typography::BODY_SIZE));
@@ -241,9 +241,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                         .size(Typography::BODY_SIZE)
                         .strong());
                 });
-                
+
                 ui.add_space(Spacing::TINY);
-                
+
                 ui.horizontal(|ui| {
                     ui.label(RichText::new("⬇ Downloaded:")
                         .size(Typography::BODY_SIZE));
@@ -255,9 +255,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                         .size(Typography::SMALL_SIZE)
                         .color(ColorPalette::TEXT_SECONDARY));
                 });
-                
+
                 ui.add_space(Spacing::TINY);
-                
+
                 ui.horizontal(|ui| {
                     ui.label(RichText::new("⬆ Uploaded:")
                         .size(Typography::BODY_SIZE));
@@ -269,7 +269,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                         .size(Typography::SMALL_SIZE)
                         .color(ColorPalette::TEXT_SECONDARY));
                 });
-                
+
                 if interface.rx_errors > 0 || interface.tx_errors > 0 {
                     ui.add_space(Spacing::TINY);
                     ui.horizontal(|ui| {
@@ -286,7 +286,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                         .color(ColorPalette::ERROR));
                     });
                 }
-                
+
                 ui.add_space(Spacing::TINY);
             }
         );
@@ -299,7 +299,7 @@ fn format_bytes(bytes: u64) -> String {
     const MB: u64 = KB * 1024;
     const GB: u64 = MB * 1024;
     const TB: u64 = GB * 1024;
-    
+
     if bytes >= TB {
         format!("{:.2} TB", bytes as f64 / TB as f64)
     } else if bytes >= GB {
@@ -318,7 +318,7 @@ fn format_number(num: u64) -> String {
     let s = num.to_string();
     let mut result = String::new();
     let mut count = 0;
-    
+
     for c in s.chars().rev() {
         if count > 0 && count % 3 == 0 {
             result.push(',');
@@ -326,7 +326,6 @@ fn format_number(num: u64) -> String {
         result.push(c);
         count += 1;
     }
-    
+
     result.chars().rev().collect()
 }
-

@@ -16,7 +16,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
     ui.add_space(Spacing::TINY);
     ui.separator();
     ui.add_space(Spacing::MEDIUM);
-    
+
     egui::ScrollArea::vertical().show(ui, |ui| {
         // General Settings with improved design
         ui.group(|ui| {
@@ -24,7 +24,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                 .size(Typography::SUBHEADING_SIZE)
                 .strong());
             ui.add_space(Spacing::SMALL);
-            
+
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Refresh Interval:")
                     .size(Typography::BODY_SIZE));
@@ -33,9 +33,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                     .suffix(" ms")
                     .text("Update Rate"));
             });
-            
+
             ui.add_space(Spacing::TINY);
-            
+
             ui.checkbox(&mut config.general.start_minimized,
                 RichText::new("Start minimized").size(Typography::BODY_SIZE));
             ui.checkbox(&mut config.general.minimize_to_tray,
@@ -43,16 +43,16 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
             ui.checkbox(&mut config.general.start_on_boot,
                 RichText::new("Start on system boot").size(Typography::BODY_SIZE));
         });
-        
+
         ui.add_space(Spacing::MEDIUM);
-        
+
         // UI Settings with improved layout
         ui.group(|ui| {
             ui.label(RichText::new("🎨 Display")
                 .size(Typography::SUBHEADING_SIZE)
                 .strong());
             ui.add_space(Spacing::SMALL);
-            
+
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Theme:")
                     .size(Typography::BODY_SIZE));
@@ -64,9 +64,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                         ui.selectable_value(&mut config.ui.theme, "Light".to_string(), "Light");
                     });
             });
-            
+
             ui.add_space(Spacing::TINY);
-            
+
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Font Size:")
                     .size(Typography::BODY_SIZE));
@@ -75,14 +75,14 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                     .suffix(" pt")
                     .text("Size"));
             });
-            
+
             ui.add_space(Spacing::TINY);
-            
+
             ui.checkbox(&mut config.ui.show_graphs,
                 RichText::new("Show graphs on dashboard").size(Typography::BODY_SIZE));
-            
+
             ui.add_space(Spacing::TINY);
-            
+
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Graph History:")
                     .size(Typography::BODY_SIZE));
@@ -92,21 +92,21 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                     .text("Duration"));
             });
         });
-        
+
         ui.add_space(Spacing::MEDIUM);
-        
+
         // Monitoring Settings with better organization
         ui.group(|ui| {
             ui.label(RichText::new("📊 Monitoring")
                 .size(Typography::SUBHEADING_SIZE)
                 .strong());
             ui.add_space(Spacing::SMALL);
-            
+
             ui.label(RichText::new("Enable Monitoring For:")
                 .size(Typography::BODY_SIZE)
                 .strong());
             ui.add_space(Spacing::TINY);
-            
+
             ui.checkbox(&mut config.monitoring.enable_cpu,
                 RichText::new("CPU").size(Typography::BODY_SIZE));
             ui.checkbox(&mut config.monitoring.enable_memory,
@@ -121,11 +121,11 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                 RichText::new("Temperatures").size(Typography::BODY_SIZE));
             ui.checkbox(&mut config.monitoring.enable_power,
                 RichText::new("Power/Battery").size(Typography::BODY_SIZE));
-            
+
             ui.add_space(Spacing::SMALL);
             ui.separator();
             ui.add_space(Spacing::SMALL);
-            
+
             ui.horizontal(|ui| {
                 ui.label(RichText::new("History Duration:")
                     .size(Typography::BODY_SIZE));
@@ -134,9 +134,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                     .suffix(" hours")
                     .text("Keep Data"));
             });
-            
+
             ui.add_space(Spacing::TINY);
-            
+
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Max Storage:")
                     .size(Typography::BODY_SIZE));
@@ -146,16 +146,16 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                     .text("Database Size"));
             });
         });
-        
+
         ui.add_space(Spacing::MEDIUM);
-        
+
         // Export Settings with improved design
         ui.group(|ui| {
             ui.label(RichText::new("💾 Data Export")
                 .size(Typography::SUBHEADING_SIZE)
                 .strong());
             ui.add_space(Spacing::SMALL);
-            
+
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Default Format:")
                     .size(Typography::BODY_SIZE));
@@ -167,31 +167,31 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                         ui.selectable_value(&mut config.export.default_format, "JSON".to_string(), "JSON");
                     });
             });
-            
+
             ui.add_space(Spacing::TINY);
-            
+
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Export Directory:")
                     .size(Typography::BODY_SIZE));
                 ui.add_space(Spacing::SMALL);
                 ui.text_edit_singleline(&mut config.export.default_directory);
             });
-            
+
             ui.add_space(Spacing::TINY);
-            
+
             ui.checkbox(&mut config.export.include_timestamps,
                 RichText::new("Include timestamps in exports").size(Typography::BODY_SIZE));
         });
-        
+
         ui.add_space(Spacing::MEDIUM);
-        
+
         // Alert Configuration Info with better styling
         ui.group(|ui| {
             ui.label(RichText::new("🔔 Alerts")
                 .size(Typography::SUBHEADING_SIZE)
                 .strong());
             ui.add_space(Spacing::SMALL);
-            
+
             ui.label(RichText::new(format!("Configured Alerts: {}", config.alerts.len()))
                 .size(Typography::BODY_SIZE)
                 .strong());
@@ -203,27 +203,27 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
                 .size(Typography::SMALL_SIZE)
                 .color(ColorPalette::TEXT_SECONDARY));
         });
-        
+
         ui.add_space(Spacing::LARGE);
-        
+
         // Action buttons with improved styling
         ui.separator();
         ui.add_space(Spacing::SMALL);
-        
+
         ui.horizontal(|ui| {
             if ui.button(RichText::new("↺ Reset to Defaults")
                 .size(Typography::BODY_SIZE)).clicked() {
                 *config = AppConfig::default();
             }
         });
-        
+
         ui.add_space(Spacing::SMALL);
         ui.label(RichText::new("⚠ Note: Settings are not persisted to disk yet.")
             .color(ColorPalette::WARNING)
             .size(Typography::SMALL_SIZE));
-        
+
         ui.add_space(Spacing::MEDIUM);
-        
+
         // Info section with better design
         ui.separator();
         ui.add_space(Spacing::SMALL);
@@ -240,4 +240,3 @@ pub fn render(_ctx: &Context, ui: &mut Ui, config: &mut AppConfig) {
         ui.hyperlink_to("🔗 GitHub Repository", "https://github.com/yourusername/system_vision");
     });
 }
-

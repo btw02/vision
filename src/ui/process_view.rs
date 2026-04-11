@@ -16,34 +16,34 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, state: &mut 
     ui.add_space(Spacing::TINY);
     ui.separator();
     ui.add_space(Spacing::MEDIUM);
-    
+
     // Controls with improved layout
     ui.horizontal(|ui| {
         ui.label(RichText::new("🔍 Filter:")
             .size(Typography::BODY_SIZE));
         ui.add_space(Spacing::SMALL);
-        
+
         let text_edit = egui::TextEdit::singleline(&mut state.process_filter)
             .hint_text("Search by name or PID...")
             .desired_width(250.0);
         ui.add(text_edit);
-        
+
         ui.add_space(Spacing::SMALL);
         if ui.button(RichText::new("✕ Clear").size(Typography::BODY_SIZE)).clicked() {
             state.process_filter.clear();
         }
-        
+
         ui.add_space(Spacing::MEDIUM);
         ui.separator();
         ui.add_space(Spacing::SMALL);
-        
+
         ui.label(RichText::new(format!("📊 Total: {}", metrics.processes.len()))
             .size(Typography::BODY_SIZE)
             .color(ColorPalette::TEXT_SECONDARY));
     });
-    
+
     ui.add_space(Spacing::MEDIUM);
-    
+
     // Filter processes
     let filter_lower = state.process_filter.to_lowercase();
     let filtered_processes: Vec<_> = metrics.processes
@@ -57,7 +57,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, state: &mut 
             }
         })
         .collect();
-    
+
     // Show filtered count
     ui.label(RichText::new(format!("Showing {} of {} processes",
         filtered_processes.len(),
@@ -65,10 +65,10 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, state: &mut 
         .size(Typography::SMALL_SIZE)
         .color(ColorPalette::TEXT_SECONDARY));
     ui.add_space(Spacing::SMALL);
-    
+
     // Process table with improved design
     use egui_extras::{TableBuilder, Column};
-    
+
     TableBuilder::new(ui)
         .striped(true)
         .resizable(true)
@@ -91,13 +91,13 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, state: &mut 
                 };
                 let label = format!("{}{}", text, arrow);
                 let color = if is_sorted { ColorPalette::INFO } else { ColorPalette::TEXT_SECONDARY };
-                
+
                 ui.button(RichText::new(label)
                     .strong()
                     .size(Typography::BODY_SIZE)
                     .color(color))
             };
-            
+
             header.col(|ui| {
                 if make_header(ui, "PID", ProcessSortColumn::Pid, state.process_sort_column, state.process_sort_ascending).clicked() {
                     state.process_sort_column = ProcessSortColumn::Pid;
@@ -155,14 +155,14 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, state: &mut 
                     }
                     ProcessSortColumn::Status => a.status.cmp(&b.status),
                 };
-                
+
                 if state.process_sort_ascending {
                     ordering
                 } else {
                     ordering.reverse()
                 }
             });
-            
+
             for process in sorted_processes {
                 body.row(24.0, |mut row| {
                     row.col(|ui| {
@@ -228,7 +228,7 @@ fn format_bytes(bytes: u64) -> String {
     const KB: u64 = 1024;
     const MB: u64 = KB * 1024;
     const GB: u64 = MB * 1024;
-    
+
     if bytes >= GB {
         format!("{:.2} GB", bytes as f64 / GB as f64)
     } else if bytes >= MB {
@@ -239,4 +239,3 @@ fn format_bytes(bytes: u64) -> String {
         format!("{} B", bytes)
     }
 }
-

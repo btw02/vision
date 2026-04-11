@@ -16,7 +16,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
     ui.add_space(Spacing::TINY);
     ui.separator();
     ui.add_space(Spacing::MEDIUM);
-    
+
     if metrics.disks.is_empty() {
         ui.vertical_centered(|ui| {
             ui.add_space(Spacing::XXLARGE);
@@ -27,7 +27,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
         });
         return;
     }
-    
+
     // Disk summary cards with improved visual design
     for disk in &metrics.disks {
         ui.group(|ui| {
@@ -41,9 +41,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                     .size(Typography::SMALL_SIZE)
                     .color(ColorPalette::TEXT_MUTED));
             });
-            
+
             ui.add_space(Spacing::SMALL);
-            
+
             // Device info
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Device:")
@@ -53,9 +53,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                 ui.label(RichText::new(&disk.device)
                     .size(Typography::BODY_SIZE));
             });
-            
+
             ui.add_space(Spacing::SMALL);
-            
+
             // Usage bar with better styling
             let usage_color = ColorPalette::usage_color(disk.usage_percent);
             ui.horizontal(|ui| {
@@ -68,9 +68,9 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                     .desired_width(350.0)
                     .desired_height(22.0));
             });
-            
+
             ui.add_space(Spacing::SMALL);
-            
+
             // Space information with color coding
             ui.horizontal(|ui| {
                 ui.label(RichText::new("Used:")
@@ -80,11 +80,11 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                     .size(Typography::BODY_SIZE)
                     .strong()
                     .color(ColorPalette::WARNING));
-                
+
                 ui.add_space(Spacing::MEDIUM);
                 ui.separator();
                 ui.add_space(Spacing::MEDIUM);
-                
+
                 ui.label(RichText::new("Available:")
                     .size(Typography::BODY_SIZE));
                 ui.add_space(Spacing::TINY);
@@ -92,11 +92,11 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                     .size(Typography::BODY_SIZE)
                     .strong()
                     .color(ColorPalette::SUCCESS));
-                
+
                 ui.add_space(Spacing::MEDIUM);
                 ui.separator();
                 ui.add_space(Spacing::MEDIUM);
-                
+
                 ui.label(RichText::new("Total:")
                     .size(Typography::BODY_SIZE));
                 ui.add_space(Spacing::TINY);
@@ -105,7 +105,7 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                     .strong()
                     .color(ColorPalette::INFO));
             });
-            
+
             // I/O speeds (if available)
             if disk.read_speed_bps > 0 || disk.write_speed_bps > 0 {
                 ui.add_space(Spacing::SMALL);
@@ -116,11 +116,11 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                     ui.label(RichText::new(format!("{}/s", format_bytes(disk.read_speed_bps)))
                         .size(Typography::BODY_SIZE)
                         .color(ColorPalette::CHART_PRIMARY));
-                    
+
                     ui.add_space(Spacing::MEDIUM);
                     ui.separator();
                     ui.add_space(Spacing::MEDIUM);
-                    
+
                     ui.label(RichText::new("✍ Write Speed:")
                         .size(Typography::BODY_SIZE));
                     ui.add_space(Spacing::TINY);
@@ -130,20 +130,20 @@ pub fn render(_ctx: &Context, ui: &mut Ui, metrics: &SystemMetrics, _state: &App
                 });
             }
         });
-        
+
         ui.add_space(Spacing::MEDIUM);
     }
-    
+
     ui.add_space(Spacing::SMALL);
-    
+
     // Detailed table with improved design
     ui.label(RichText::new("📋 Detailed Information")
         .size(Typography::SUBHEADING_SIZE)
         .strong());
     ui.add_space(Spacing::SMALL);
-    
+
     use egui_extras::{TableBuilder, Column};
-    
+
     TableBuilder::new(ui)
         .striped(true)
         .resizable(true)
@@ -243,7 +243,7 @@ fn format_bytes(bytes: u64) -> String {
     const GB: u64 = MB * 1024;
     const TB: u64 = GB * 1024;
     const PB: u64 = TB * 1024;
-    
+
     if bytes >= PB {
         format!("{:.2} PB", bytes as f64 / PB as f64)
     } else if bytes >= TB {
@@ -258,4 +258,3 @@ fn format_bytes(bytes: u64) -> String {
         format!("{} B", bytes)
     }
 }
-

@@ -17,13 +17,13 @@ impl TemperatureCollector {
     /// Create a new temperature collector
     pub fn new() -> Result<Self> {
         let components = Components::new_with_refreshed_list();
-        
+
         Ok(Self {
             components,
             metrics: Vec::new(),
         })
     }
-    
+
     /// Get the current metrics
     pub fn get_metrics(&self) -> Vec<TemperatureMetrics> {
         self.metrics.clone()
@@ -34,7 +34,7 @@ impl Collector for TemperatureCollector {
     fn collect(&mut self) -> Result<()> {
         // Refresh component information
         self.components.refresh();
-        
+
         // Collect temperature metrics
         self.metrics = self.components
             .iter()
@@ -47,8 +47,7 @@ impl Collector for TemperatureCollector {
                 }
             })
             .collect();
-        
+
         Ok(())
     }
 }
-

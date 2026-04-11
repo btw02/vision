@@ -64,4 +64,3 @@ fn load_icon() -> egui::IconData {
         height: 32,
     }
 }
-

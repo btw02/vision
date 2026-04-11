@@ -9,7 +9,7 @@
 fn main() {
     // Print build information
     println!("cargo:rerun-if-changed=build.rs");
-    
+
     // Platform-specific configuration can be added here
     #[cfg(target_os = "linux")]
     {

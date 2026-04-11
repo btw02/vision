@@ -17,13 +17,13 @@ impl DiskCollector {
     /// Create a new disk collector
     pub fn new() -> Result<Self> {
         let disks = Disks::new_with_refreshed_list();
-        
+
         Ok(Self {
             disks,
             metrics: Vec::new(),
         })
     }
-    
+
     /// Get the current metrics
     pub fn get_metrics(&self) -> Vec<DiskMetrics> {
         self.metrics.clone()
@@ -34,7 +34,7 @@ impl Collector for DiskCollector {
     fn collect(&mut self) -> Result<()> {
         // Refresh disk information
         self.disks.refresh();
-        
+
         // Collect disk metrics
         self.metrics = self.disks
             .iter()
@@ -47,7 +47,7 @@ impl Collector for DiskCollector {
                 } else {
                     0.0
                 };
-                
+
                 DiskMetrics {
                     mount_point: disk.mount_point().to_string_lossy().to_string(),
                     device: disk.name().to_string_lossy().to_string(),
@@ -62,8 +62,7 @@ impl Collector for DiskCollector {
                 }
             })
             .collect();
-        
+
         Ok(())
     }
 }
-

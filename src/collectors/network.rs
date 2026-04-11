@@ -20,7 +20,7 @@ impl NetworkCollector {
     /// Create a new network collector
     pub fn new() -> Result<Self> {
         let networks = Networks::new_with_refreshed_list();
-        
+
         Ok(Self {
             networks,
             metrics: NetworkMetrics {
@@ -35,7 +35,7 @@ impl NetworkCollector {
             last_update: std::time::Instant::now(),
         })
     }
-    
+
     /// Get the current metrics
     pub fn get_metrics(&self) -> NetworkMetrics {
         self.metrics.clone()
@@ -46,7 +46,7 @@ impl Collector for NetworkCollector {
     fn collect(&mut self) -> Result<()> {
         // Refresh network information
         self.networks.refresh();
-        
+
         // Collect interface metrics
         self.metrics.interfaces = self.networks
             .iter()
@@ -63,30 +63,29 @@ impl Collector for NetworkCollector {
                 }
             })
             .collect();
-        
+
         // Calculate totals
         let total_rx: u64 = self.metrics.interfaces.iter().map(|i| i.rx_bytes).sum();
         let total_tx: u64 = self.metrics.interfaces.iter().map(|i| i.tx_bytes).sum();
-        
+
         // Calculate speeds (bytes per second)
         let now = std::time::Instant::now();
         let elapsed = now.duration_since(self.last_update).as_secs_f64();
-        
+
         if elapsed > 0.0 && self.last_rx_bytes > 0 {
             let rx_diff = total_rx.saturating_sub(self.last_rx_bytes);
             let tx_diff = total_tx.saturating_sub(self.last_tx_bytes);
-            
+
             self.metrics.rx_speed_bps = (rx_diff as f64 / elapsed) as u64;
             self.metrics.tx_speed_bps = (tx_diff as f64 / elapsed) as u64;
         }
-        
+
         self.metrics.total_rx_bytes = total_rx;
         self.metrics.total_tx_bytes = total_tx;
         self.last_rx_bytes = total_rx;
         self.last_tx_bytes = total_tx;
         self.last_update = now;
-        
+
         Ok(())
     }
 }
-

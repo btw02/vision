@@ -40,7 +40,7 @@ case $OS in
             git
         echo "✓ Dependencies installed successfully!"
         ;;
-    
+
     fedora|rhel|centos)
         echo "Installing dependencies for Fedora/RHEL/CentOS..."
         sudo dnf install -y \
@@ -59,7 +59,7 @@ case $OS in
             git
         echo "✓ Dependencies installed successfully!"
         ;;
-    
+
     arch|manjaro)
         echo "Installing dependencies for Arch Linux..."
         sudo pacman -S --needed \
@@ -77,7 +77,7 @@ case $OS in
             git
         echo "✓ Dependencies installed successfully!"
         ;;
-    
+
     opensuse*|sles)
         echo "Installing dependencies for openSUSE..."
         sudo zypper install -y \
@@ -96,7 +96,7 @@ case $OS in
             git
         echo "✓ Dependencies installed successfully!"
         ;;
-    
+
     *)
         echo "Unsupported distribution: $OS"
         echo ""
